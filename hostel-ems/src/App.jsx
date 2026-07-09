@@ -1,9 +1,19 @@
 import TaskBar from './components/TaskBar';
+import { useState , useEffect } from 'react';
 
 export default function App() {
-  return (
-    <div className='w-screen'>
-      <TaskBar />
-    </div>
-  );
+        const [darkMode, setDarkMode] = useState(false);
+
+        useEffect(() => {
+        document.body.classList.toggle("dark", darkMode);
+        }, [darkMode]);
+
+        return(
+        <>
+        <TaskBar 
+        darkMode = {darkMode}
+        setDarkMode = {setDarkMode}
+        />
+        </>
+      );
 }

@@ -1,1 +1,11 @@
+@custom-variant dark (&:where(.dark, .dark *));
 @import "tailwindcss";
+
+
+body.dark {
+  background-color: black;
+}
+
+body {
+  font-family: "pliant", sans-serif;
+}
