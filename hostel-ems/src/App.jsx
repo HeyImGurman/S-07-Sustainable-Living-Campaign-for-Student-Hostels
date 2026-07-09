@@ -1,3 +1,4 @@
+import Dashboard from './components/Dashboard';
 import TaskBar from './components/TaskBar';
 import { useState , useEffect } from 'react';
 
@@ -14,6 +15,12 @@ export default function App() {
         darkMode = {darkMode}
         setDarkMode = {setDarkMode}
         />
+        
+        <Dashboard 
+        darkMode = {darkMode}
+        setDarkMode = {setDarkMode}
+        />
+
         </>
       );
 }

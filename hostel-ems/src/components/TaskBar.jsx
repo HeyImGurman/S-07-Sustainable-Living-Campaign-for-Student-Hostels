@@ -13,7 +13,7 @@ export default function Taskbar({ darkMode, setDarkMode }) {
   console.log(darkMode)
 
   return(
-    <div className='w-screen font-pliant'>
+    <div className='w-screen font-pliant font-brand'>
       <div className='w-screen h-[3rem] flex justify-left pl-[2rem] items-center bg-red-500 gap-[2rem]'>
         
         <div className='flex justify-center rounded-[5px] pl-[5px] pr-[5px] items-center gap-[5px] cursor-pointer transition-colors duration-300 ease-in-out hover:bg-red-400'><IoHome /><p>Home</p></div>

@@ -9,3 +9,7 @@ body.dark {
 body {
   font-family: "pliant", sans-serif;
 }
+
+@theme {
+    --font-brand: "Pliant", sans-serif;
+}
