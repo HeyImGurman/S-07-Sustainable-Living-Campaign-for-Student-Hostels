@@ -1,0 +1,64 @@
+{
+  "dashboard": {
+    "occupancyRate": 78,
+    "activeAppliances": 41,
+    "pendingRequests": 7,
+    "lastUpdated": "2 mins ago"
+  },
+  "rooms": [
+    {
+      "id": 1,
+      "roomNumber": "101",
+      "hostel": "Main Hostel",
+      "floor": 1,
+      "occupancy": {
+        "status": "occupied",
+        "student": "Gurmanpreet Singh",
+        "bed": "B1"
+      },
+      "light": true,
+      "fan": true,
+      "hasFault": false,
+      "temperature": 24,
+      "water": "available",
+      "wifi": "connected",
+      "maintenance": "No issues"
+    },
+    {
+      "id": 2,
+      "roomNumber": "102",
+      "hostel": "Main Hostel",
+      "floor": 1,
+      "occupancy": {
+        "status": "vacant",
+        "student": null,
+        "bed": "B2"
+      },
+      "light": false,
+      "fan": false,
+      "hasFault": false,
+      "temperature": 22,
+      "water": "available",
+      "wifi": "disconnected",
+      "maintenance": "Ready for allocation"
+    },
+    {
+      "id": 3,
+      "roomNumber": "205",
+      "hostel": "Block B",
+      "floor": 2,
+      "occupancy": {
+        "status": "occupied",
+        "student": "Milan Das",
+        "bed": "B3"
+      },
+      "light": true,
+      "fan": false,
+      "hasFault": true,
+      "temperature": 28,
+      "water": "low",
+      "wifi": "connected",
+      "maintenance": "Fan motor needs review"
+    }
+  ]
+}
