@@ -141,10 +141,10 @@ export default function Analytics() {
               </div>
             </div>
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_0.9fr]">
-              <div className="overflow-hidden rounded-xl border border-slate-200 bg-black dark:border-slate-700">
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="mx-auto w-full max-w-[480px] overflow-hidden rounded-xl border border-slate-200 bg-black dark:border-slate-700">
                 <video
-                  className="h-full w-full"
+                  className="aspect-video h-full w-full"
                   controls
                   preload="metadata"
                   playsInline
