@@ -1,4 +1,5 @@
-import { ArrowDownRight, Zap } from 'lucide-react';
+import { ArrowDownRight, PlayCircle, Zap } from 'lucide-react';
+import awarenessVideo from '../assets/AwarenessVideo.mp4';
 
 const monthlyData = [
   { month: 'Jan', baseline: 210, current: 154 },
@@ -122,6 +123,46 @@ export default function Analytics() {
                 <p className="mt-3 text-2xl font-semibold">{Math.round(totalSaved / monthlyData.length)} kWh</p>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
                   Average savings per month with the installed hardware system.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold">Awareness video</h2>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  A short overview of how the hostel energy system promotes efficient and responsible usage.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <PlayCircle size={16} /> Captions available
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_0.9fr]">
+              <div className="overflow-hidden rounded-xl border border-slate-200 bg-black dark:border-slate-700">
+                <video
+                  className="h-full w-full"
+                  controls
+                  preload="metadata"
+                  playsInline
+                  poster=""
+                >
+                  <source src={awarenessVideo} type="video/mp4" />
+                  <track kind="captions" src="/captions/awareness.vtt" srcLang="en" label="English captions" default />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/70 dark:text-slate-300">
+                <h3 className="font-semibold text-slate-800 dark:text-slate-100">Video summary</h3>
+                <p className="mt-2 leading-6">
+                  This video explains how the smart hostel system helps reduce wasted electricity, encourages better appliance habits, and improves comfort for residents through automated monitoring.
+                </p>
+                <p className="mt-3 leading-6">
+                  It is designed to be easy to follow on desktop and mobile, with built-in playback controls and captions for accessibility.
                 </p>
               </div>
             </div>
