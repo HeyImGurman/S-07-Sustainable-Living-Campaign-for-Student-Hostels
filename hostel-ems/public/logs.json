@@ -26,5 +26,33 @@
     "title": "Motion sensor triggered",
     "location": "Block A - Stairwell",
     "severity": "warning"
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-07-25 14:12",
+    "title": "Water heater turned off after idle period",
+    "location": "Block D - Common Washroom",
+    "severity": "info"
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-07-25 15:40",
+    "title": "Air conditioner set to eco mode",
+    "location": "Block B - Room 214",
+    "severity": "info"
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-07-25 16:55",
+    "title": "Maintenance alert: light bulb reported faulty",
+    "location": "Block C - Room 306",
+    "severity": "warning"
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-07-25 18:03",
+    "title": "All corridor lights switched to night mode",
+    "location": "Block A - Corridor",
+    "severity": "info"
   }
 ]

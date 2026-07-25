@@ -6,10 +6,18 @@ import Logs from './components/Logs';
 import TaskBar from './components/TaskBar';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    const savedTheme = window.localStorage.getItem('hostel-ems-theme');
+    return savedTheme === 'dark';
+  });
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
+    window.localStorage.setItem('hostel-ems-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
   return (
