@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Analytics from './components/Analytics';
 import Dashboard from './components/Dashboard';
+import Logs from './components/Logs';
 import TaskBar from './components/TaskBar';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />} />
         <Route path="/analytics" element={<Analytics />} />
+        <Route path="/logs" element={<Logs />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

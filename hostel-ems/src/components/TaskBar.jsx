@@ -23,10 +23,10 @@ export default function Taskbar({ darkMode, setDarkMode }) {
           <p>Analytics</p>
         </Link>
 
-        <div className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
+        <Link to="/logs" className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
           <HiOutlineDocumentReport />
           <p>Logs</p>
-        </div>
+        </Link>
 
         <div className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
           <IoSettings />

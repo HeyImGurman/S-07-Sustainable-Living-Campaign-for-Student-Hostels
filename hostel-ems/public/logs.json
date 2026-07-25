@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-07-25 08:10",
+    "title": "Electricity cut off - no one detected",
+    "location": "Block A - Room 101",
+    "severity": "warning"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-07-25 09:35",
+    "title": "Fan switched off remotely",
+    "location": "Block B - Room 205",
+    "severity": "info"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-07-25 11:20",
+    "title": "Light turned on automatically",
+    "location": "Block C - Corridor",
+    "severity": "info"
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-07-25 13:05",
+    "title": "Motion sensor triggered",
+    "location": "Block A - Stairwell",
+    "severity": "warning"
+  }
+]
