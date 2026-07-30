@@ -3,10 +3,10 @@ import { IoChevronDown, IoHome, IoLogOut, IoPersonCircleOutline, IoSettings } fr
 import { GoGraph } from 'react-icons/go';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { CgDarkMode } from 'react-icons/cg';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 
-export default function Taskbar({ darkMode, setDarkMode, user, onLogout }) {
+export default function Taskbar({ darkMode, setDarkMode, user, onLogout, onRequireLogin }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -16,7 +16,22 @@ export default function Taskbar({ darkMode, setDarkMode, user, onLogout }) {
 
   function handleLogin(event) {
     event.preventDefault();
+    if (!user) {
+      onRequireLogin?.();
+      return;
+    }
     navigate('/login');
+  }
+
+  function handleProtectedNavigation(event, path) {
+    event.preventDefault();
+
+    if (!user) {
+      onRequireLogin?.();
+      return;
+    }
+
+    navigate(path);
   }
 
   function handleLogout() {
@@ -29,25 +44,41 @@ export default function Taskbar({ darkMode, setDarkMode, user, onLogout }) {
     <div className="w-screen font-pliant font-brand">
       <div className="flex h-auto min-h-[3rem] w-screen flex-wrap items-center gap-[1rem] bg-red-500 px-[1rem] py-[0.6rem] text-white sm:gap-[1.5rem] sm:px-[2rem]">
         <div className="flex flex-wrap items-center gap-[0.75rem] sm:gap-[1rem]">
-          <Link to="/" className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
+          <button
+            type="button"
+            onClick={(event) => handleProtectedNavigation(event, '/')}
+            className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400"
+          >
             <IoHome />
             <p>Home</p>
-          </Link>
+          </button>
 
-          <Link to="/analytics" className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
+          <button
+            type="button"
+            onClick={(event) => handleProtectedNavigation(event, '/analytics')}
+            className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400"
+          >
             <GoGraph />
             <p>Analytics</p>
-          </Link>
+          </button>
 
-          <Link to="/logs" className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
+          <button
+            type="button"
+            onClick={(event) => handleProtectedNavigation(event, '/logs')}
+            className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400"
+          >
             <HiOutlineDocumentReport />
             <p>Logs</p>
-          </Link>
+          </button>
 
-          <div className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400">
+          <button
+            type="button"
+            onClick={(event) => handleProtectedNavigation(event, '/settings')}
+            className="flex items-center justify-center gap-[5px] rounded-[5px] px-[5px] py-[5px] transition-colors duration-300 ease-in-out hover:bg-red-400"
+          >
             <IoSettings />
             <p>Settings</p>
-          </div>
+          </button>
         </div>
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-[0.75rem]">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
 import Analytics from './components/Analytics';
@@ -11,21 +11,37 @@ function AppShell({ user, setUser, darkMode, setDarkMode }) {
   const location = useLocation();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const toastTimerRef = useRef(null);
+
+  function showToast(message = 'Please log in to access this page.') {
+    setToastMessage(message);
+    setToastVisible(true);
+
+    if (toastTimerRef.current) {
+      window.clearTimeout(toastTimerRef.current);
+    }
+
+    toastTimerRef.current = window.setTimeout(() => {
+      setToastVisible(false);
+    }, 3200);
+  }
 
   useEffect(() => {
     if (!user && location.pathname !== '/login') {
-      const timer = window.setTimeout(() => {
-        setToastVisible(false);
-      }, 3200);
-
-      setToastMessage('Please log in to access this page.');
-      setToastVisible(true);
-
-      return () => window.clearTimeout(timer);
+      showToast();
+      return;
     }
 
     setToastVisible(false);
   }, [location.pathname, user]);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current);
+      }
+    };
+  }, []);
 
   function handleLogin(nextUser) {
     setUser(nextUser);
@@ -37,20 +53,26 @@ function AppShell({ user, setUser, darkMode, setDarkMode }) {
 
   return (
     <>
-      <TaskBar darkMode={darkMode} setDarkMode={setDarkMode} user={user} onLogout={handleLogout} />
+      <TaskBar
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        user={user}
+        onLogout={handleLogout}
+        onRequireLogin={() => showToast()}
+      />
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage onLogin={handleLogin} />} />
         <Route
           path="/"
-          element={user ? <Dashboard user={user} /> : <Navigate to="/login" replace />}
+          element={user ? <Dashboard user={user} /> : <LoginPage onLogin={handleLogin} />}
         />
         <Route
           path="/analytics"
-          element={user ? <Analytics /> : <Navigate to="/login" replace />}
+          element={user ? <Analytics /> : <LoginPage onLogin={handleLogin} />}
         />
         <Route
           path="/logs"
-          element={user ? <Logs /> : <Navigate to="/login" replace />}
+          element={user ? <Logs /> : <LoginPage onLogin={handleLogin} />}
         />
         <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
       </Routes>
