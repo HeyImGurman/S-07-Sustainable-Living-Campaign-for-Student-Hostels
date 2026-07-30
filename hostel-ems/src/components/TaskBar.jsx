@@ -19,13 +19,16 @@ export default function Taskbar({ darkMode, setDarkMode }) {
 
   function handleLogin(event) {
     event.preventDefault();
-    const trimmedUsername = username.trim();
 
-    if (!trimmedUsername) {
+    if (!username.trim()) {
+      setDisplayName('Guest');
+      setIsLoggedIn(true);
+      setPassword('');
+      setMenuOpen(false);
       return;
     }
 
-    setDisplayName(trimmedUsername);
+    setDisplayName(username.trim());
     setIsLoggedIn(true);
     setPassword('');
     setMenuOpen(false);
@@ -66,21 +69,7 @@ export default function Taskbar({ darkMode, setDarkMode }) {
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-[0.75rem]">
           {!isLoggedIn ? (
-            <form onSubmit={handleLogin} className="flex flex-wrap items-center gap-[0.5rem] rounded-[8px] bg-red-600/70 px-[0.6rem] py-[0.35rem]">
-              <input
-                type="text"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                placeholder="Username"
-                className="w-[7rem] rounded-[6px] border border-red-400 bg-white px-[0.5rem] py-[0.3rem] text-sm text-slate-800 outline-none"
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Password"
-                className="w-[7rem] rounded-[6px] border border-red-400 bg-white px-[0.5rem] py-[0.3rem] text-sm text-slate-800 outline-none"
-              />
+            <form onSubmit={handleLogin} className="rounded-[8px] bg-red-600/70 px-[0.6rem] py-[0.35rem]">
               <button
                 type="submit"
                 className="rounded-[6px] bg-white px-[0.7rem] py-[0.35rem] text-sm font-semibold text-red-600 transition hover:bg-red-50"
