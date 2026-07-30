@@ -3,10 +3,11 @@ import { IoChevronDown, IoHome, IoLogOut, IoPersonCircleOutline, IoSettings } fr
 import { GoGraph } from 'react-icons/go';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { CgDarkMode } from 'react-icons/cg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../index.css';
 
 export default function Taskbar({ darkMode, setDarkMode }) {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,19 +20,7 @@ export default function Taskbar({ darkMode, setDarkMode }) {
 
   function handleLogin(event) {
     event.preventDefault();
-
-    if (!username.trim()) {
-      setDisplayName('Guest');
-      setIsLoggedIn(true);
-      setPassword('');
-      setMenuOpen(false);
-      return;
-    }
-
-    setDisplayName(username.trim());
-    setIsLoggedIn(true);
-    setPassword('');
-    setMenuOpen(false);
+    navigate('/login');
   }
 
   function handleLogout() {

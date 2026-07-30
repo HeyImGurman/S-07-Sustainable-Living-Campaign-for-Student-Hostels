@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Analytics from './components/Analytics';
 import Dashboard from './components/Dashboard';
+import LoginPage from './components/LoginPage';
 import Logs from './components/Logs';
 import TaskBar from './components/TaskBar';
 
@@ -24,6 +25,7 @@ export default function App() {
     <BrowserRouter>
       <TaskBar darkMode={darkMode} setDarkMode={setDarkMode} />
       <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/logs" element={<Logs />} />
