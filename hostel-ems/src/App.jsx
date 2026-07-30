@@ -50,10 +50,19 @@ export default function App() {
       <TaskBar darkMode={darkMode} setDarkMode={setDarkMode} user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage onLogin={handleLogin} />} />
-        <Route path="/" element={<Dashboard user={user} />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/logs" element={<Logs />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="/"
+          element={user ? <Dashboard user={user} /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/analytics"
+          element={user ? <Analytics /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/logs"
+          element={user ? <Logs /> : <Navigate to="/login" replace />}
+        />
+        <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
       </Routes>
     </BrowserRouter>
   );
