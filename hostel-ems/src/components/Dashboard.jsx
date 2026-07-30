@@ -77,10 +77,6 @@ export default function Dashboard() {
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{loadingMessages[loadingMessageIndex]}</p>
           </div>
 
-          <div className="mt-6 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-            <div className="h-full w-1/2 animate-[pulse_1.5s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500" />
-          </div>
-
           <div className="mt-5 grid grid-cols-3 gap-3 text-center text-sm text-slate-500 dark:text-slate-400">
             <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/70">
               <div className="flex justify-center text-emerald-500"><BedSingle size={16} /></div>
