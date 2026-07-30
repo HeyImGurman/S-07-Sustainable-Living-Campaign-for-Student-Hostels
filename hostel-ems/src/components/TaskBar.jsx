@@ -69,10 +69,10 @@ export default function Taskbar({ darkMode, setDarkMode }) {
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-[0.75rem]">
           {!isLoggedIn ? (
-            <form onSubmit={handleLogin} className="rounded-[8px] bg-red-600/70 px-[0.6rem] py-[0.35rem]">
+            <form onSubmit={handleLogin} className="rounded-[8px] bg-red-500 px-[0.6rem] py-[0.35rem]">
               <button
                 type="submit"
-                className="rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-orange-400 px-[0.9rem] py-[0.4rem] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-gradient-to-r hover:from-red-500 hover:via-rose-400 hover:to-orange-300 hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)]"
+                className="rounded-full bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-500 px-[0.9rem] py-[0.4rem] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-gradient-to-r hover:from-sky-500 hover:via-cyan-400 hover:to-emerald-400 hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)]"
               >
                 Login
               </button>
