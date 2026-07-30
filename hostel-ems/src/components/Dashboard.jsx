@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, BedDouble, Sparkles } from 'lucide-react';
+import { AlertTriangle, BedDouble, Sparkles, LoaderCircle, BedSingle, Home, Zap } from 'lucide-react';
 import RoomCard from './UI/RoomCard';
 
 const API_URL = 'http://localhost:5000';
@@ -8,8 +8,19 @@ export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+
+  const loadingMessages = [
+    'Syncing room sensors and appliance status…',
+    'Checking occupancy updates and maintenance flags…',
+    'Preparing the latest hostel insights for you…',
+  ];
 
   useEffect(() => {
+    const messageTimer = setInterval(() => {
+      setLoadingMessageIndex((current) => (current + 1) % loadingMessages.length);
+    }, 2200);
+
     Promise.all([
       fetch(`${API_URL}/dashboard`).then((res) => res.json()),
       fetch(`${API_URL}/rooms`).then((res) => res.json()),
@@ -43,10 +54,50 @@ export default function Dashboard() {
         ]);
       })
       .finally(() => setLoading(false));
+
+    return () => clearInterval(messageTimer);
   }, []);
 
   if (loading) {
-    return <div className="p-6 text-sm text-slate-500">Loading hostel data...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.14),_transparent_45%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_100%)] p-6 text-slate-800 dark:bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.16),_transparent_45%),linear-gradient(135deg,_#020617_0%,_#0f172a_100%)] dark:text-slate-100">
+        <div className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="flex items-center justify-center">
+            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400">
+              <LoaderCircle className="h-8 w-8 animate-spin" />
+              <div className="absolute inset-0 rounded-full border-2 border-emerald-400/20" />
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <div className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
+              <Home size={16} /> Hostel EMS
+            </div>
+            <h2 className="mt-3 text-2xl font-semibold">Preparing your dashboard</h2>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{loadingMessages[loadingMessageIndex]}</p>
+          </div>
+
+          <div className="mt-6 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div className="h-full w-1/2 animate-[pulse_1.5s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500" />
+          </div>
+
+          <div className="mt-5 grid grid-cols-3 gap-3 text-center text-sm text-slate-500 dark:text-slate-400">
+            <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/70">
+              <div className="flex justify-center text-emerald-500"><BedSingle size={16} /></div>
+              <p className="mt-2 font-medium">Rooms</p>
+            </div>
+            <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/70">
+              <div className="flex justify-center text-sky-500"><Zap size={16} /></div>
+              <p className="mt-2 font-medium">Power</p>
+            </div>
+            <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/70">
+              <div className="flex justify-center text-amber-500"><AlertTriangle size={16} /></div>
+              <p className="mt-2 font-medium">Alerts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
