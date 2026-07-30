@@ -6,12 +6,8 @@ import { CgDarkMode } from 'react-icons/cg';
 import { Link, useNavigate } from 'react-router-dom';
 import '../index.css';
 
-export default function Taskbar({ darkMode, setDarkMode }) {
+export default function Taskbar({ darkMode, setDarkMode, user, onLogout }) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('Guest');
   const [menuOpen, setMenuOpen] = useState(false);
 
   function toggleMode() {
@@ -24,11 +20,9 @@ export default function Taskbar({ darkMode, setDarkMode }) {
   }
 
   function handleLogout() {
-    setIsLoggedIn(false);
-    setUsername('');
-    setPassword('');
-    setDisplayName('Guest');
     setMenuOpen(false);
+    onLogout?.();
+    navigate('/login');
   }
 
   return (
@@ -57,7 +51,7 @@ export default function Taskbar({ darkMode, setDarkMode }) {
         </div>
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-[0.75rem]">
-          {!isLoggedIn ? (
+          {!user ? (
             <form onSubmit={handleLogin} className="rounded-[8px] bg-red-500 px-[0.6rem] py-[0.35rem]">
               <button
                 type="submit"
@@ -74,9 +68,9 @@ export default function Taskbar({ darkMode, setDarkMode }) {
                 className="flex items-center gap-[0.5rem] rounded-[999px] bg-red-600/70 px-[0.6rem] py-[0.35rem] transition hover:bg-red-600"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-red-600">
-                  {displayName.charAt(0).toUpperCase()}
+                  {user.name?.charAt(0).toUpperCase() || 'U'}
                 </div>
-                <span className="text-sm font-medium">{displayName}</span>
+                <span className="text-sm font-medium">{user.name || 'User'}</span>
                 <IoChevronDown size={16} />
               </button>
 

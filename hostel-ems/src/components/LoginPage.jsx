@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -44,7 +45,8 @@ function useSensorGrid(rows, cols) {
   }, [rows, cols]);
 }
 
-export default function LoginPage() {
+export default function LoginPage({ onLogin }) {
+  const navigate = useNavigate();
   const [role, setRole] = useState("admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,12 +75,27 @@ export default function LoginPage() {
     }
     setStatus("loading");
     setErrorMsg("");
-    // TODO: replace with real auth call, e.g.
-    // await fetch("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password, role }) })
-    await new Promise((res) => setTimeout(res, 1200));
+
+    await new Promise((res) => setTimeout(res, 900));
+
+    const profileName =
+      role === "student"
+        ? "Gurmanpreet"
+        : role === "maintenance"
+          ? "Alex Chen"
+          : "Admin User";
+
+    onLogin?.({
+      id: `${role}-${email}`,
+      name: profileName,
+      email: email.trim(),
+      role,
+      roomNumber: role === "student" ? "703A" : undefined,
+      block: role === "student" ? "A" : undefined,
+    });
+
     setStatus("idle");
-    setErrorMsg("Login isn't wired up yet — connect this form to your auth API.");
-    setStatus("error");
+    navigate("/");
   }
 
   return (
