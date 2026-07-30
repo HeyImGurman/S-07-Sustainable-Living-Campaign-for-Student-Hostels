@@ -72,7 +72,7 @@ export default function Taskbar({ darkMode, setDarkMode }) {
             <form onSubmit={handleLogin} className="rounded-[8px] bg-red-600/70 px-[0.6rem] py-[0.35rem]">
               <button
                 type="submit"
-                className="rounded-[6px] bg-white px-[0.7rem] py-[0.35rem] text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                className="rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-orange-400 px-[0.9rem] py-[0.4rem] text-sm font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-gradient-to-r hover:from-red-500 hover:via-rose-400 hover:to-orange-300 hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)]"
               >
                 Login
               </button>
