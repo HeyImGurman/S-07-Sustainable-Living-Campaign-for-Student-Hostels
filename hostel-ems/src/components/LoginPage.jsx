@@ -1,6 +1,24 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+
+const ENV_CREDENTIALS = {
+  admin: {
+    email: import.meta.env.VITE_ADMIN_EMAIL || "admin@hostelems.local",
+    password: import.meta.env.VITE_ADMIN_PASSWORD || "admin123",
+    name: "Admin",
+  },
+  maintenance: {
+    email: import.meta.env.VITE_MAINTENANCE_EMAIL || "maintenance@hostelems.local",
+    password: import.meta.env.VITE_MAINTENANCE_PASSWORD || "maint123",
+    name: "Maintenance",
+  },
+  student: {
+    email: import.meta.env.VITE_STUDENT_EMAIL || "student@hostelems.local",
+    password: import.meta.env.VITE_STUDENT_PASSWORD || "student123",
+    name: "Student",
+  }, q
+};
 import {
   Mail,
   Lock,
@@ -78,24 +96,31 @@ export default function LoginPage({ onLogin }) {
 
     await new Promise((res) => setTimeout(res, 900));
 
-    const profileName =
-      role === "student"
-        ? "Gurmanpreet"
-        : role === "maintenance"
-          ? "Alex Chen"
-          : "Admin User";
+    const credential = ENV_CREDENTIALS[role];
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
 
-    onLogin?.({
-      id: `${role}-${email}`,
-      name: profileName,
-      email: email.trim(),
-      role,
-      roomNumber: role === "student" ? "703A" : undefined,
-      block: role === "student" ? "A" : undefined,
-    });
+    if (
+      credential &&
+      normalizedEmail === credential.email.toLowerCase() &&
+      normalizedPassword === credential.password
+    ) {
+      onLogin?.({
+        id: `${role}-${normalizedEmail}`,
+        name: credential.name,
+        email: normalizedEmail,
+        role,
+        roomNumber: role === "student" ? "703A" : undefined,
+        block: role === "student" ? "A" : undefined,
+      });
 
-    setStatus("idle");
-    navigate("/");
+      setStatus("idle");
+      navigate(role === "student" ? "/" : role === "maintenance" ? "/logs" : "/analytics");
+      return;
+    }
+
+    setStatus("error");
+    setErrorMsg("The selected role credentials do not match. Please try again.");
   }
 
   return (
