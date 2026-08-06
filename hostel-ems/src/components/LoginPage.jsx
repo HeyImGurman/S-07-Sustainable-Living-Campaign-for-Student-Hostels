@@ -2,6 +2,20 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Loader2,
+  Activity,
+  ShieldCheck,
+  Wrench,
+  GraduationCap,
+  ArrowRight,
+  AlertCircle,
+} from "lucide-react";
+
 const ENV_CREDENTIALS = {
   admin: {
     email: import.meta.env.VITE_ADMIN_EMAIL || "admin@hostelems.local",
@@ -17,21 +31,8 @@ const ENV_CREDENTIALS = {
     email: import.meta.env.VITE_STUDENT_EMAIL || "student@hostelems.local",
     password: import.meta.env.VITE_STUDENT_PASSWORD || "student123",
     name: "Student",
-  }, q
+  },
 };
-import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  Loader2,
-  Activity,
-  ShieldCheck,
-  Wrench,
-  GraduationCap,
-  ArrowRight,
-  AlertCircle,
-} from "lucide-react";
 
 const ROLES = [
   { id: "admin", label: "Admin", icon: ShieldCheck },

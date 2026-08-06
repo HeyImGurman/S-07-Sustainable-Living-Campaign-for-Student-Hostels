@@ -5,6 +5,7 @@ import Analytics from './components/Analytics';
 import Dashboard from './components/Dashboard';
 import LoginPage from './components/LoginPage';
 import Logs from './components/Logs';
+import Settings from './components/Settings';
 import TaskBar from './components/TaskBar';
 
 function AppShell({ user, setUser, darkMode, setDarkMode }) {
@@ -73,6 +74,10 @@ function AppShell({ user, setUser, darkMode, setDarkMode }) {
         <Route
           path="/logs"
           element={user ? <Logs /> : <LoginPage onLogin={handleLogin} />}
+        />
+        <Route
+          path="/settings"
+          element={user ? <Settings user={user} darkMode={darkMode} setDarkMode={setDarkMode} /> : <LoginPage onLogin={handleLogin} />}
         />
         <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
       </Routes>
