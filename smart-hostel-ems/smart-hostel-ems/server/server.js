@@ -22,9 +22,6 @@ const io = new Server(server, {
 
 app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
 app.use(express.json());
-app.use((req, res, next) => {
-  connectDB().then(() => next(), next);
-});
 
 app.get("/api/health", (req, res) => res.json({ status: "ok", time: new Date().toISOString() }));
 
@@ -48,18 +45,10 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 5000;
 
-if (require.main === module) {
-  connectDB()
-    .then(() => {
-      server.listen(PORT, () => {
-        console.log(`[server] Smart Hostel EMS API running on port ${PORT}`);
-        startSimulation(io);
-      });
-    })
-    .catch((error) => {
-      console.error("[server] startup failed:", error.message);
-      process.exitCode = 1;
-    });
-}
-
-module.exports = app;
+(async () => {
+  await connectDB();
+  server.listen(PORT, () => {
+    console.log(`[server] Smart Hostel EMS API running on port ${PORT}`);
+    startSimulation(io);
+  });
+})();
