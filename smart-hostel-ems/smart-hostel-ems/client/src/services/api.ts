@@ -13,11 +13,11 @@ import type {
 } from "../types";
 import * as mock from "./mockEngine";
 
-// If VITE_API_URL is defined, this app talks to the real MERN backend in /server.
-// Otherwise it runs entirely on the in-browser simulation engine so the UI can be
-// explored instantly with zero setup.
-const API_URL = import.meta.env.VITE_API_URL as string | undefined;
-export const USING_MOCK = !API_URL;
+// Production uses the same-origin /api routes; local development stays in demo mode
+// unless VITE_API_URL is set.
+const API_URL = import.meta.env.VITE_API_URL;
+export const USING_MOCK =
+  import.meta.env.VITE_USE_MOCK_API === "true" || (!import.meta.env.PROD && !API_URL);
 
 const http = axios.create({ baseURL: API_URL });
 http.interceptors.request.use((config) => {
@@ -27,9 +27,8 @@ http.interceptors.request.use((config) => {
 });
 
 let socket: Socket | null = null;
-export function getSocket() {
-  if (USING_MOCK) return null;
-  if (!socket) socket = io(API_URL as string);
+function getSocket() {
+  if (!socket) socket = io(API_URL || undefined);
   return socket;
 }
 
@@ -80,10 +79,27 @@ export async function setAutomation(roomNumber: string, enabled: boolean) {
 
 export function subscribeRoomUpdates(cb: (rooms: Room[]) => void) {
   if (USING_MOCK) return mock.subscribeRooms(cb);
-  const s = getSocket();
-  s?.on("rooms:update", cb);
+
+  if (!import.meta.env.PROD) {
+    const s = getSocket();
+    s.on("rooms:update", cb);
+    return () => s.off("rooms:update", cb);
+  }
+
+  let active = true;
+  const poll = () => {
+    void http
+      .get<{ rooms: Room[] }>("/api/rooms")
+      .then(({ data }) => {
+        if (active) cb(data.rooms);
+      })
+      .catch((error: unknown) => console.error("Failed to poll room updates", error));
+  };
+  poll();
+  const interval = window.setInterval(poll, 5000);
   return () => {
-    s?.off("rooms:update", cb);
+    active = false;
+    window.clearInterval(interval);
   };
 }
 
@@ -106,10 +122,43 @@ export async function markAllNotificationsRead() {
 
 export function subscribeNewNotifications(cb: (n: Notification) => void) {
   if (USING_MOCK) return mock.subscribeNotifications(cb);
-  const s = getSocket();
-  s?.on("notification:new", cb);
+
+  if (!import.meta.env.PROD) {
+    const s = getSocket();
+    s.on("notification:new", cb);
+    return () => s.off("notification:new", cb);
+  }
+
+  let active = true;
+  let initialized = false;
+  const seen = new Set<string>();
+  const poll = async () => {
+    try {
+      const { data } = await http.get<{ notifications: Notification[] }>("/api/notifications");
+      if (!active) return;
+      if (!initialized) {
+        data.notifications.forEach((notification) => seen.add(notification._id));
+        initialized = true;
+        return;
+      }
+      data.notifications
+        .slice()
+        .reverse()
+        .forEach((notification) => {
+          if (!seen.has(notification._id)) {
+            seen.add(notification._id);
+            cb(notification);
+          }
+        });
+    } catch (error) {
+      console.error("Failed to poll notification updates", error);
+    }
+  };
+  void poll();
+  const interval = window.setInterval(() => void poll(), 5000);
   return () => {
-    s?.off("notification:new", cb);
+    active = false;
+    window.clearInterval(interval);
   };
 }
 

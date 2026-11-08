@@ -26,8 +26,12 @@ cp .env.example .env
 npm run dev
 ```
 
-With `VITE_API_URL` set, every request and the realtime socket connection goes to the
-Express + MongoDB server in `/server` instead of the mock engine.
+With `VITE_API_URL` set, every request goes to the Express + MongoDB server instead of
+the mock engine. Set `VITE_USE_MOCK_API=true` to explicitly use the in-browser demo.
+Production builds use the same-origin `/api` routes by default, so no client API URL
+needs to be configured on Vercel. In production the dashboard polls API updates instead
+of relying on a persistent socket connection.
+
 
 ## Structure
 
